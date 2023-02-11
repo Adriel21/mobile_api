@@ -1,6 +1,7 @@
 import express  from "express";
 import cors from "cors";
 import {ler, inserir, lerUm, atualizar, excluir} from "./src/aluno.js";
+import { lerEventos, inserirEvento, lerUmEvento } from "./src/evento.js";
 
 const app = express();
 const porta = process.env.PORT || 3000;
@@ -25,6 +26,12 @@ app.get('/perfil', (req, res) => {
    ler(res);
 });
 
+// Rota (endpoint para exibir todos os alunos)
+app.get('/evento', (req, res) => {
+    // res.send(`Todos alunos`);
+    lerEventos(res);
+ });
+
 // Rota (endpoint) para exibir um único aluno
 app.get(`/perfil/:id`, (req, res) => {
     // res.send(`Exibindo dados de um aluno`);
@@ -32,11 +39,25 @@ app.get(`/perfil/:id`, (req, res) => {
     lerUm(id, res);
 });
 
+// Rota (endpoint) para exibir um único aluno
+app.get(`/evento/:id`, (req, res) => {
+    // res.send(`Exibindo dados de um aluno`);
+    const id = req.params.id; //params é função nativa do mysql 2 - pegue todos os parâmetros e busque o id
+    lerUmEvento(id, res);
+});
+
 // Rota (endpoint) para INSERIR alunos
 app.post('/perfil', (req, res) => {
     // res.send(`INSERINDO perfil`);
     const novoAluno = req.body;
     inserir(novoAluno, res);
+});
+
+// Rota (endpoint) para INSERIR alunos
+app.post('/evento', (req, res) => {
+    // res.send(`INSERINDO perfil`);
+    const novoAluno = req.body;
+    inserirEvento(novoAluno, res);
 });
 
 // Rota para atualizar TODOS os dados do aluno
