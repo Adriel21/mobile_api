@@ -2,7 +2,7 @@ import express  from "express";
 import cors from "cors";
 import {ler, inserir, lerUm, atualizar, excluir} from "./src/aluno.js";
 import { lerEventos, inserirEvento, lerUmEvento } from "./src/evento.js";
-import { inserirUmaRede, lerUmaRede, lerRedes } from "./src/rede.js";
+import { inserirUmaRede, lerUmaRede, lerRedes, atualizarRede } from "./src/rede.js";
 
 const app = express();
 const porta = process.env.PORT || 3000;
@@ -102,6 +102,16 @@ app.patch('/perfil/:id', (req, res) => {
     // dados do aluno
     const aluno = req.body;
     atualizar(id, aluno, res);
+});
+
+app.patch('/rede/:id', (req, res) => {
+    // res.send(`ATUALIZA ALGUNS/todos os dados de um aluno`);
+
+    // capturar id
+    const id = parseInt(req.params.id);
+    // dados do aluno
+    const aluno = req.body;
+    atualizarRede(id, aluno, res);
 });
 
 // Rota (endpoint) para EXCLUIR aluno

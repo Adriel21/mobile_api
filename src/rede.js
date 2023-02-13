@@ -55,4 +55,20 @@ function inserirUmaRede(rede, res) {
       })
     }
 
-    export { lerRedes,  inserirUmaRede, lerUmaRede, }
+    function atualizarRede(perfilId, rede, res) {
+        const sql = "UPDATE rede SET ? WHERE perfilId = ?";
+    
+        // Aqui a ordem é importante, para passar mais de um parâmetro usamos o array. Dentro dele a ordem importa, pois precisa corresponder ao SQL acima.
+        conexao.query(sql, [rede, perfilId], (erro, resultados) => {
+            if(erro) {
+                res.status(400).json(erro.code);
+            } else {
+                // res.status(200).json({"status" : "Atualizado com sucesso!"});
+    
+                // spread operator (operador de "espalhamento" de objetos) pega todos os itens e adiciona dentro do mesmo objeto
+                res.status(200).json({...rede, perfilId});
+            }
+        });
+    }
+
+    export { lerRedes,  inserirUmaRede, lerUmaRede, atualizarRede}
