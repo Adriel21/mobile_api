@@ -1,23 +1,29 @@
 import conexao from "./banco.js";
 
-function lerUmaRede(perfilId, res) {
-    const sql = "SELECT * FROM perfil WHERE perfilId = ?";
-
-  conexao.query(sql, perfilId, (erro, resultados) => {
-    if(resultados.length === 0){
-        res.status(204).end();
-        return;
+// / Função que lê a tabela de alunos do BD
+function lerRedes(res) {
+    // Criando o CRUD
+    const sql = "SELECT * FROM rede";
+    
+    
+    // conectando ao BD
+    conexao.query(sql, (erro, resultados) => {
+        if(resultados.length === 0) {
+            res.status(204).end(); //204 = Sem conteúdo. O método .end() para qualquer comunicação.
+            return; // equivalente ao die()
+        } 
+        if(erro) {
+            res.status(400).json(erro.code); // 400 BAD Request - comunicação não entendida pelo servidor / requisição inválida.
+        } else {
+            res.status(200).json(resultados); //deu certo, exibir os resultados
+        }
+    }) //query equivale ao  execute do php
     }
-    // if erro ou resultado
-    if(erro){
-        res.status(400).json(erro.code);
-    } else {
-        res.status(200).json(resultados[0]);
-    }
-  })
-}
 
-function inserirRede(rede, res) {
+
+        // Inserindo alunos
+
+function inserirUmaRede(rede, res) {
     // Estamos iniciando o comando de inserção de dados no banco utilizando um caracter curinga do MySQL2 "SET ?" que recebe os dados e atribui na ordem sem a necessidade de especificar as colunas. Proteção contra injection e tratamento de strings 
     const sql = "INSERT INTO rede SET ?";
 
@@ -25,10 +31,28 @@ function inserirRede(rede, res) {
         if(erro){
             res.status(400).json(erro.code); //400 - requisição inválida e informa o código de erro.
         } else {
-            res.status(201).json({"status": "rede inserido"}); // 201- criado e apresenta a mensagem do Aluno inserido!. 
+            res.status(201).json({"status": "evento inserido"}); // 201- criado e apresenta a mensagem do Aluno inserido!. 
             //res.status(201).end();
         }
     });
 }
 
-export {lerUmaRede, inserirRede}
+
+    function lerUmaRede(perfilId, res) {
+        const sql = "SELECT * FROM rede WHERE perfilId = ?";
+    
+      conexao.query(sql, perfilId, (erro, resultados) => {
+        if(resultados.length === 0){
+            res.status(204).end();
+            return;
+        }
+        // if erro ou resultado
+        if(erro){
+            res.status(400).json(erro.code);
+        } else {
+            res.status(200).json(resultados[0]);
+        }
+      })
+    }
+
+    export { lerRedes,  inserirUmaRede, lerUmaRede, }

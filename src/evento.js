@@ -37,10 +37,11 @@ function inserirEvento(evento, res) {
     });
 }
 
-function lerUmEvento(perfilId, res) {
-    const sql = "SELECT * FROM perfil WHERE perfil_id = ?";
+function lerUmEvento(id, res) {
+    const sql = "SELECT * FROM evento WHERE id = ?";
+    
 
-  conexao.query(sql, perfilId, (erro, resultados) => {
+  conexao.query(sql, id, (erro, resultados) => {
     if(resultados.length === 0){
         res.status(204).end();
         return;
