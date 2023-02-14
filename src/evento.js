@@ -38,7 +38,7 @@ function inserirEvento(evento, res) {
 }
 
 function lerUmEvento(id, res) {
-    const sql = "SELECT * FROM evento JOIN perfil ON evento.perfilId = perfil.id WHERE evento.id = ?";
+    const sql = "SELECT * FROM evento INNER JOIN perfil ON evento.perfilId = perfil.id WHERE evento.id = ?";
     ;
 
     
